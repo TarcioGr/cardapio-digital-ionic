@@ -1,2 +1,13 @@
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+
+ion-item {
+  --border-radius: 10px;
+  margin: 5px 10px;
+  --transition: 0.3s;
+}
+
+ion-item:active {
+  transform: scale(0.98);
+}

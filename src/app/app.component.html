@@ -1,3 +1,91 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content style="--background: #121212;">
+        <ion-list style="background: transparent; padding-top: 30px;">
+          <ion-list-header style="font-size: 2.2rem; font-weight: 800; color: var(--ion-color-danger);">Menu</ion-list-header>
+          <ion-note style="margin-left: 18px; color: #666; display: block; margin-bottom: 20px;">TG Burguer - Delivery</ion-note>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/home" lines="none" style="--background: transparent; margin-bottom: 10px;">
+              <ion-icon slot="start" name="home-outline" style="color: #fff;"></ion-icon>
+              <ion-label style="color: #fff; font-weight: 600;">Início</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/lanches" lines="none" style="--background: transparent; margin-bottom: 10px;">
+              <ion-icon slot="start" name="fast-food-outline" style="color: #fff;"></ion-icon>
+              <ion-label style="color: #fff; font-weight: 600;">Lanches</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/refeicoes" lines="none" style="--background: transparent; margin-bottom: 10px;">
+              <ion-icon slot="start" name="pizza-outline" style="color: #fff;"></ion-icon>
+              <ion-label style="color: #fff; font-weight: 600;">Pratos Executivos</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/bebidas" lines="none" style="--background: transparent; margin-bottom: 10px;">
+              <ion-icon slot="start" name="wine-outline" style="color: #fff;"></ion-icon>
+              <ion-label style="color: #fff; font-weight: 600;">Bebidas</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/sobremesas" lines="none" style="--background: transparent; margin-bottom: 10px;">
+  <ion-icon slot="start" name="ice-cream-outline" style="color: #fff;"></ion-icon>
+  <ion-label style="color: #fff; font-weight: 600;">Sobremesas</ion-label>
+</ion-item>
+
+            <ion-item (click)="setOpen(true)" lines="none" style="--background: transparent; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; cursor: pointer;">
+              <ion-icon slot="start" name="cart-outline" style="color: var(--ion-color-warning);"></ion-icon>
+              <ion-label style="color: var(--ion-color-warning); font-weight: 700;">Meu Carrinho</ion-label>
+              <ion-badge slot="end" color="warning" *ngIf="carrinhoService.getTotalItens() > 0">{{ carrinhoService.getTotalItens() }}</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+
+  <ion-modal [isOpen]="carrinhoAberto" (didDismiss)="setOpen(false)">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="danger">
+          <ion-title>Meu Pedido</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding" style="--background: #121212;">
+        <ion-list lines="full" style="background: transparent;">
+          <ion-item *ngFor="let item of carrinhoService.getItens()" style="--background: transparent; --color: white; margin-bottom: 10px;">
+            <ion-thumbnail slot="start">
+              <img [src]="item.img" style="border-radius: 8px;" />
+            </ion-thumbnail>
+            <ion-label>
+              <h2 style="font-weight: bold; color: white;">{{ item.nome }}</h2>
+              <p style="color: #2dd36f; font-weight: 600;">R$ {{ item.preco.toFixed(2) }}</p>
+            </ion-label>
+            <ion-button slot="end" fill="clear" color="danger" (click)="carrinhoService.remover(item.instanceId)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+
+        <div *ngIf="carrinhoService.getTotalItens() === 0" style="text-align: center; margin-top: 50px; color: #666;">
+          <ion-icon name="cart-outline" style="font-size: 4rem;"></ion-icon>
+          <p>O seu carrinho está vazio.</p>
+        </div>
+      </ion-content>
+
+      <ion-footer class="ion-padding" style="background: #1e1e1e;" *ngIf="carrinhoService.getTotalItens() > 0">
+        <div style="display: flex; justify-content: space-between; color: white; margin-bottom: 20px;">
+          <span>Total:</span>
+          <strong style="color: #2dd36f; font-size: 1.4rem;">R$ {{ carrinhoService.getValorTotal().toFixed(2) }}</strong>
+        </div>
+        <ion-button expand="block" color="success" style="font-weight: 800; height: 50px;">FINALIZAR COMPRA</ion-button>
+        <ion-button expand="block" fill="clear" color="danger" (click)="carrinhoService.limpar()">LIMPAR TUDO</ion-button>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
 </ion-app>

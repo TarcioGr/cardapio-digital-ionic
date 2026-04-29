@@ -1,0 +1,56 @@
+.header-welcome {
+  background: var(--ion-color-danger);
+  color: white;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-bottom: 10px;
+
+  h1 { font-weight: 800; margin-bottom: 5px; }
+  p { opacity: 0.8; margin-top: 0; }
+}
+
+.promo-card {
+  position: relative;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin: 10px 5px;
+
+  img {
+    height: 160px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .badge-promo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ffc409;
+    color: black;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 2;
+  }
+
+  ion-card-title { font-size: 1.1rem; font-weight: bold; }
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.9rem;
+  }
+
+  .current-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--ion-color-success);
+  }
+}

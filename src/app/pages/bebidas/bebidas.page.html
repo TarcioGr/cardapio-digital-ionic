@@ -1,0 +1,96 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title style="font-weight: 800;">Bebidas</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="setOpen(true)">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge color="warning" *ngIf="carrinhoService.getTotalItens() > 0" 
+          style="position: absolute; top: 0; right: 0; font-size: 0.7rem;">
+          {{ carrinhoService.getTotalItens() }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #121212;">
+  <!-- Título da Categoria -->
+  <div class="ion-padding">
+    <h2 style="font-weight: 800; margin-bottom: 5px; color: white;">Para Acompanhar</h2>
+    <p style="color: #888; margin-top: 0;">Sucos, refrigerantes e cervejas geladas.</p>
+  </div>
+
+  <ion-list lines="none" class="ion-padding-horizontal" style="background: transparent;">
+    <!-- Trocado routerLink por verDetalhes(item) -->
+    <ion-item *ngFor="let item of itens" 
+              button 
+              (click)="verDetalhes(item)"
+              class="ion-margin-bottom" 
+              style="--background: #1e1e1e; --border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+      
+      <ion-label>
+        <h3 style="font-weight: bold; color: white; font-size: 1.1rem;">{{ item.nome }}</h3>
+        <p style="color: #bbb; margin: 4px 0;">{{ item.desc }}</p>
+        <strong style="color: #2dd36f; font-size: 1rem;">R$ {{ item.preco.toFixed(2) }}</strong>
+      </ion-label>
+
+      <ion-thumbnail slot="end" style="width: 70px; height: 70px;">
+        <img [src]="item.img" style="border-radius: 10px; object-fit: cover;">
+      </ion-thumbnail>
+    </ion-item>
+  </ion-list>
+
+  <!-- MODAL DO CARRINHO (Ajustado para Tema Dark) -->
+  <ion-modal [isOpen]="carrinhoAberto">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar style="--background: #1e1e1e; color: white;">
+          <ion-title>Meu Pedido</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)" color="danger">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      
+      <ion-content class="ion-padding" style="--background: #121212;">
+        <ion-list style="background: transparent;">
+          <ion-item *ngFor="let c of carrinhoService.getItens()" style="--background: transparent; border-bottom: 1px solid #333;">
+            <ion-thumbnail slot="start">
+              <img [src]="c.img" style="border-radius: 8px;" />
+            </ion-thumbnail>
+            <ion-label>
+              <h2 style="color: white; font-weight: bold;">{{ c.nome }}</h2>
+              <p style="color: #2dd36f;">R$ {{ c.preco.toFixed(2) }}</p>
+            </ion-label>
+            <ion-button slot="end" fill="clear" color="danger" (click)="removerDoCarrinho(c.instanceId)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+
+        <div *ngIf="carrinhoService.getTotalItens() === 0" style="text-align: center; margin-top: 50px;">
+          <ion-icon name="cart-outline" style="font-size: 4rem; color: #444;"></ion-icon>
+          <p style="color: #666;">Seu carrinho está vazio</p>
+        </div>
+      </ion-content>
+
+      <ion-footer class="ion-padding" *ngIf="carrinhoService.getTotalItens() > 0" style="background: #1e1e1e;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+          <strong style="color: white;">Total:</strong>
+          <strong style="color: #2dd36f; font-size: 1.4rem;">
+            R$ {{ carrinhoService.getValorTotal().toFixed(2) }}
+          </strong>
+        </div>
+        <ion-button expand="block" color="success" style="font-weight: bold; height: 50px; --border-radius: 12px;">
+          FINALIZAR PEDIDO
+        </ion-button>
+        <ion-button expand="block" fill="clear" color="danger" (click)="cancelarTudo()">CANCELAR TUDO</ion-button>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+</ion-content>

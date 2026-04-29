@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 800;">Refeições</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #121212;">
+  <!-- Texto de introdução da categoria -->
+  <div class="ion-padding">
+    <h2 style="font-weight: 800; margin-bottom: 5px; color: white;">Pratos Executivos</h2>
+    <p style="color: #888; margin-top: 0;">Sabor de comida caseira feita na hora.</p>
+  </div>
+
+  <ion-list lines="none" class="ion-padding-horizontal" style="background: transparent;">
+    <!-- Trocamos routerLink por (click)="verDetalhes(prato)" -->
+    <ion-item *ngFor="let prato of pratos" 
+              button 
+              (click)="verDetalhes(prato)"
+              class="ion-margin-bottom" 
+              style="--background: #1e1e1e; --border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+      
+      <ion-thumbnail slot="start" style="width: 90px; height: 90px;">
+        <img [src]="prato.img" style="border-radius: 12px; object-fit: cover;" />
+      </ion-thumbnail>
+
+      <ion-label class="ion-margin-start">
+        <h2 style="font-weight: bold; font-size: 1.1rem; color: white;">{{ prato.nome }}</h2>
+        <p style="font-size: 0.85rem; white-space: normal; color: #bbb; margin: 4px 0;">{{ prato.desc }}</p>
+        <h3 style="color: #2dd36f; font-weight: 800; margin-top: 8px; font-size: 1.1rem;">
+          R$ {{ prato.preco.toFixed(2) }}
+        </h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -8,7 +8,7 @@ import { AppComponent } from './app/app.component';
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    provideIonicAngular({ mode: 'md' }), // Força visual Android que é mais limpo
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });

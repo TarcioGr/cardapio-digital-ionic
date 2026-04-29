@@ -1,0 +1,37 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-weight: 800;">Sobremesas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: #121212;">
+  <!-- Introdução da categoria -->
+  <div class="ion-padding">
+    <h2 style="font-weight: 800; margin-bottom: 5px; color: white;">Um toque doce</h2>
+    <p style="color: #888; margin-top: 0;">As melhores opções para finalizar sua refeição.</p>
+  </div>
+
+  <ion-list lines="none" class="ion-padding-horizontal" style="background: transparent;">
+    <!-- Trocado [routerLink] por (click)="verDetalhes(item)" -->
+    <ion-item *ngFor="let item of itens" 
+              button 
+              (click)="verDetalhes(item)"
+              class="ion-margin-bottom" 
+              style="--background: #1e1e1e; --border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+      
+      <ion-label>
+        <h3 style="font-weight: bold; font-size: 1.1rem; color: white;">{{ item.nome }}</h3>
+        <p style="font-size: 0.9rem; color: #bbb; margin: 5px 0; white-space: normal;">{{ item.desc }}</p>
+        <strong style="color: #2dd36f; font-size: 1.1rem;">R$ {{ item.preco.toFixed(2) }}</strong>
+      </ion-label>
+
+      <ion-thumbnail slot="end" style="width: 80px; height: 80px;">
+        <img [src]="item.img" style="border-radius: 10px; object-fit: cover;">
+      </ion-thumbnail>
+
+    </ion-item>
+  </ion-list>
+</ion-content>
