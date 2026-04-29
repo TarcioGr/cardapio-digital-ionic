@@ -35,5 +35,6 @@ export class HomePage {
       preco: item.preco,
       img: item.img
     });
+    
   }
 }
